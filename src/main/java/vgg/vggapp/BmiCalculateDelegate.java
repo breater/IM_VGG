@@ -23,13 +23,15 @@ public class BmiCalculateDelegate implements JavaDelegate {
 		long alter = calculateAge( convertToLocalDate((Date)execution.getVariable("gb")),LocalDate.now());
 		long bmi =   Math.round(  (long)execution.getVariable("gewicht")   / (Math.pow((long)execution.getVariable("gr")/100.0,2)  ) );
 		long risk = 0 ;
-		if(execution.getVariable("k1").toString().trim() != "" ) {
-			risk = 1 ;
+		
+		if (execution.getVariable("k3").toString().trim() != "" ) {
+			risk = 3;
 		}else if (execution.getVariable("k2").toString().trim() != "" ) {
 			risk = 2;
-		}else if (execution.getVariable("k3").toString().trim() != "" ) {
-			risk = 3;
+		}else if(execution.getVariable("k1").toString().trim() != "" ) {
+			risk = 1 ;
 		}
+		
 		
 		execution.setVariable("malter", alter);
 		execution.setVariable("mbmi", bmi);

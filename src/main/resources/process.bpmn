@@ -10,7 +10,7 @@
     <bpmn:messageFlow id="Flow_09o0cac" sourceRef="Activity_1hoejis" targetRef="Event_0mjf0yv" />
   </bpmn:collaboration>
   <bpmn:process id="kundeprocess" name="kundenprocess" isExecutable="true">
-    <bpmn:startEvent id="Event_0hj3870" name="start">
+    <bpmn:startEvent id="Event_0hj3870" name="start" camunda:initiator="starter">
       <bpmn:outgoing>Flow_0xle6hf</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:userTask id="Activity_161gavl" name="Antrag ausfüllen" camunda:assignee="${starter}" camunda:candidateGroups="customer">
