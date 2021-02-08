@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Definitions_0m1rt44" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <decision id="entscheidung" name="Entscheidung">
+    <informationRequirement id="InformationRequirement_04f6pcz">
+      <requiredDecision href="#riskokategorie" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1r128ji">
+      <requiredDecision href="#riskalter" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0692jn9">
+      <requiredDecision href="#risikobmi" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0ij2arw" hitPolicy="FIRST">
+      <input id="Input_1" label="Risikofaktor_BMI">
+        <inputExpression id="InputExpression_1" typeRef="integer">
+          <text>bmi_out</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_19etdm6" label="Risikofaktor_Risikokategorie">
+        <inputExpression id="LiteralExpression_00glndr" typeRef="integer">
+          <text>risikokategorie_out</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0wfy45f" label="Risikofaktor_Alter">
+        <inputExpression id="LiteralExpression_0slp9uw" typeRef="integer">
+          <text>alter_out</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Entscheidung_test" name="Entscheidung" typeRef="string" />
+      <rule id="DecisionRule_073ary4">
+        <description>Wenn der Kunde einen BMI &gt;= 35 aufweist, wird die Entscheidung „nicht
+versicherungsfähig“ getroffen.</description>
+        <inputEntry id="UnaryTests_0fwifx8">
+          <text>999</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1k9isu4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1w3fvfh">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1845zxo">
+          <text>"nicht versicherungsfähig"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1r7lp0m">
+        <description>Wenn der Kunde eine Vorerkrankung der Kategorie 3 aufweist, wird die
+Entscheidung „nicht versicherungsfähig“ getroffen.</description>
+        <inputEntry id="UnaryTests_1klgplm">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0e2iwp5">
+          <text>100</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mgts3q">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1loawom">
+          <text>"nicht versicherungsfähig"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1yg1f7s">
+        <description>Wenn der Risikofaktor Krankenhistorie &gt;= 50 wird die Entscheidung
+„manuelle Prüfung“ getroffen.</description>
+        <inputEntry id="UnaryTests_0bcxn40">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0szdiw8">
+          <text>&gt;= 50</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tc94af">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ryajhq">
+          <text>"manuelle Prüfung"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1fy9r4z">
+        <description>Wenn beide Risikofaktoren Alter oder Rahmenbedingungen &gt;= 50 aber
+&lt;70 sind, wird die Entscheidung „manuelle Prüfung“ getroffen</description>
+        <inputEntry id="UnaryTests_0hvidnx">
+          <text>[50..69]</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jbkl45">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_175142l">
+          <text>[50..69]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0vrs8q6">
+          <text>"manuelle Prüfung"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_11q99u8">
+        <description>Wenn der Risikofaktor Rahmenbedingungen &gt;= 50 und der Risikofaktor
+Vorerkrankungen &gt;= 25 wird die Entscheidung „manuelle Prüfung“ getroffen.</description>
+        <inputEntry id="UnaryTests_1db3t2p">
+          <text>&gt;= 50</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pc4vhf">
+          <text>&gt;= 25</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18yxvwa">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0n3itjm">
+          <text>"manuelle Prüfung"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0l5453x">
+        <description>Wenn der Risikofaktor Alter &gt;= 70 und der Risikofaktor Vorerkrankungen
+&gt;= 25 wird die Entscheidung „manuelle Prüfung“ getroffen.</description>
+        <inputEntry id="UnaryTests_0wvv72n">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oj8mq3">
+          <text>&gt;= 25</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_085k3ea">
+          <text>&gt;= 70</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ds7zad">
+          <text>"manuelle Prüfung"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_17x2zxi">
+        <description>Wenn alle drei Risikofaktoren &lt; 50 sind, wird die Entscheidung „versicherungsfähig“ getroffen</description>
+        <inputEntry id="UnaryTests_0sa6zl0">
+          <text>&lt; 50</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_091dl3d">
+          <text>&lt; 50</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xjzah3">
+          <text>&lt; 50</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1hccwd7">
+          <text>"versicherungsfähig"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0qsdoiu">
+        <description>Wenn einer der beiden Risikofaktoren Alter oder Rahmenbedingungen
+&gt;= 50 aber &lt; 70 und der Risikofaktor Krankenhistorie &lt; 50, wird die Entscheidung „versicherungsfähig“ getroffen</description>
+        <inputEntry id="UnaryTests_044c310">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0h1ynp5">
+          <text>&lt; 50</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0sbzkcn">
+          <text>[50..69]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1f3p73w">
+          <text>"versicherungsfähig"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0848r10">
+        <description>Wenn einer der beiden Risikofaktoren Alter oder Rahmenbedingungen
+&gt;= 50 aber &lt; 70 und der Risikofaktor Krankenhistorie &lt; 50, wird die Entscheidung „versicherungsfähig“ getroffen</description>
+        <inputEntry id="UnaryTests_0ttqg1f">
+          <text>[50..69]</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17d1nqk">
+          <text>&lt; 50</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jeovvb">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_04lkpd2">
+          <text>"versicherungsfähig"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_19f6ofh">
+        <description>Falls keiner der voherigen Fälle zutrifft</description>
+        <inputEntry id="UnaryTests_1uefs92">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0awng0w">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yazotu">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0dtmbzy">
+          <text>"manuelle Prüfung"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1197lmi" name="mbmi" />
+  <inputData id="InputData_129o6dr" name="mrisk" />
+  <inputData id="InputData_145evft" name="malter" />
+  <decision id="risikobmi" name="Risikofaktor_BMI">
+    <informationRequirement id="InformationRequirement_0fbprre">
+      <requiredInput href="#InputData_1197lmi" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1gwh670">
+      <input id="InputClause_0ue7dlx" label="BMI">
+        <inputExpression id="LiteralExpression_02grrxx" typeRef="integer">
+          <text>mbmi</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0lqmxdv" label="Risikofaktor_BMI" name="bmi_out" typeRef="integer" />
+      <rule id="DecisionRule_1f9ihz0">
+        <inputEntry id="UnaryTests_18oilwd">
+          <text>&lt;20</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tm3ou9">
+          <text>50</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0e9ftdq">
+        <inputEntry id="UnaryTests_14zqr6d">
+          <text>[20..26]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1fmy3vq">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_03hvmsu">
+        <inputEntry id="UnaryTests_0k793b1">
+          <text>[27..29]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_117yeyx">
+          <text>50</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0xwxizx">
+        <inputEntry id="UnaryTests_0l2sohs">
+          <text>[30..32]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0fv5lw5">
+          <text>70</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_009gv57">
+        <inputEntry id="UnaryTests_05j2oym">
+          <text>33,34</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_14q4zln">
+          <text>100</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1hhoy80">
+        <inputEntry id="UnaryTests_0isbmfp">
+          <text>&gt;=35</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0bvnq16">
+          <text>999</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="riskokategorie" name="Risikofaktor_Risikokategorie">
+    <informationRequirement id="InformationRequirement_0c4kagy">
+      <requiredInput href="#InputData_129o6dr" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_017d0by">
+      <input id="InputClause_186nb3l" label="Risikokategorie">
+        <inputExpression id="LiteralExpression_07hjkd9" typeRef="integer">
+          <text>mrisk</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_03vx47o" label="Risikofaktor_Risikokategorie" name="risikokategorie_out" typeRef="integer" />
+      <rule id="DecisionRule_043j87u">
+        <inputEntry id="UnaryTests_1hau4ft">
+          <text>0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_18ohmvg">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1div57z">
+        <inputEntry id="UnaryTests_00ohzac">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_14jjyih">
+          <text>10</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0gko2rd">
+        <inputEntry id="UnaryTests_0sajqm8">
+          <text>2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_06p4vlz">
+          <text>50</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0u82b6k">
+        <inputEntry id="UnaryTests_08qwynt">
+          <text>3</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0qna9u8">
+          <text>100</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="riskalter" name="Risikofaktor_Alter">
+    <informationRequirement id="InformationRequirement_1xd3vcm">
+      <requiredInput href="#InputData_145evft" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_14ivpo9">
+      <input id="InputClause_1ilmgbn" label="Alter">
+        <inputExpression id="LiteralExpression_0tx1hma" typeRef="integer">
+          <text>malter</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0yjs8vy" label="Risikofaktor_Alter" name="alter_out" typeRef="integer" />
+      <rule id="DecisionRule_0ofpikp">
+        <inputEntry id="UnaryTests_0jefvyn">
+          <text>&lt;=40</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_18s9fl4">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0nk4zh5">
+        <inputEntry id="UnaryTests_19k727f">
+          <text>[41..55]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1415g13">
+          <text>20</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0a0802f">
+        <inputEntry id="UnaryTests_1ced24z">
+          <text>[56..60]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1giejpo">
+          <text>50</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0p72l5j">
+        <inputEntry id="UnaryTests_08nyyuw">
+          <text>[61..70]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_18m690s">
+          <text>70</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1llynvg">
+        <inputEntry id="UnaryTests_1dn6jgh">
+          <text>&gt;70</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0onfn1u">
+          <text>100</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="entscheidung">
+        <dc:Bounds height="80" width="180" x="400" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1di9hcd" dmnElementRef="InformationRequirement_04f6pcz">
+        <di:waypoint x="490" y="300" />
+        <di:waypoint x="490" y="180" />
+        <di:waypoint x="490" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_06j50p4" dmnElementRef="InformationRequirement_1r128ji">
+        <di:waypoint x="730" y="300" />
+        <di:waypoint x="535" y="180" />
+        <di:waypoint x="535" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0bg8n2d" dmnElementRef="InformationRequirement_0692jn9">
+        <di:waypoint x="210" y="300" />
+        <di:waypoint x="445" y="180" />
+        <di:waypoint x="445" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1ozor05" dmnElementRef="InputData_1197lmi">
+        <dc:Bounds height="45" width="125" x="147" y="537" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0l397km" dmnElementRef="InformationRequirement_0fbprre">
+        <di:waypoint x="210" y="537" />
+        <di:waypoint x="210" y="400" />
+        <di:waypoint x="210" y="380" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0ztfbe8" dmnElementRef="InputData_129o6dr">
+        <dc:Bounds height="45" width="125" x="427" y="537" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0edbufu" dmnElementRef="InformationRequirement_0c4kagy">
+        <di:waypoint x="490" y="537" />
+        <di:waypoint x="490" y="400" />
+        <di:waypoint x="490" y="380" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0kgonr5" dmnElementRef="InputData_145evft">
+        <dc:Bounds height="45" width="125" x="667" y="537" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_06xdpr8" dmnElementRef="InformationRequirement_1xd3vcm">
+        <di:waypoint x="730" y="537" />
+        <di:waypoint x="730" y="400" />
+        <di:waypoint x="730" y="380" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0gf2at1" dmnElementRef="risikobmi">
+        <dc:Bounds height="80" width="180" x="120" y="300" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0kbi46a" dmnElementRef="riskokategorie">
+        <dc:Bounds height="80" width="180" x="400" y="300" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1643fzn" dmnElementRef="riskalter">
+        <dc:Bounds height="80" width="180" x="640" y="300" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
