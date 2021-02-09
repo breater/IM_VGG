@@ -15,47 +15,40 @@ public class BmiCalculateDelegate implements JavaDelegate {
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		// TODO Auto-generated method stub
-		Map<String, Object> processVariables = new HashMap();
+		 
+		Map<String, Object> processVariables = new HashMap(); // store all data here
 		// fill the message; use new names
-		processVariables = execution.getVariables();
-		try {
-		long alter = calculateAge( convertToLocalDate((Date)execution.getVariable("gb")),LocalDate.now());
-		long bmi =   Math.round(  (long)execution.getVariable("gewicht")   / (Math.pow((long)execution.getVariable("gr")/100.0,2)  ) );
-		long risk = 0 ;
+		processVariables = execution.getVariables(); //get alldata 
+		 
+		long alter = calculateAge( convertToLocalDate((Date)execution.getVariable("gb")),LocalDate.now()); //calcualte the age 
+		long bmi =   Math.round(  (long)execution.getVariable("gewicht")   / (Math.pow((long)execution.getVariable("gr")/100.0,2)  ) ); //calculate bmi
+		long risk = 0 ;	//default riskfak is 0
 		
-		if (execution.getVariable("k3").toString().trim() != "" ) {
+		if (execution.getVariable("k3").toString().trim() != "" ) {		//if some thins is written in k3 field set risk 3
 			risk = 3;
-		}else if (execution.getVariable("k2").toString().trim() != "" ) {
+		}else if (execution.getVariable("k2").toString().trim() != "" ) {	// else look if something is written in k2 field and set risk 2
 			risk = 2;
-		}else if(execution.getVariable("k1").toString().trim() != "" ) {
+		}else if(execution.getVariable("k1").toString().trim() != "" ) { //else look if something is written in k1 field and  set risk 1
 			risk = 1 ;
 		}
 		
 		
-		execution.setVariable("malter", alter);
-		execution.setVariable("mbmi", bmi);
-		execution.setVariable("mrisk", risk);
+		execution.setVariable("malter", alter); //add  alter to pool
+		execution.setVariable("mbmi", bmi);	//add bmi to pool
+		execution.setVariable("mrisk", risk);//add risk to pool
 		
-		//processVariables.put("malter", alter);
-		//processVariables.put("mbmi", bmi);
-		//processVariables.put("mrisk",risk);
-		}
-		catch(ELException ex) {
-			
-		}
-		catch(Exception ex) {
-			
-		}
-		
+ 
+	 
 	}
 
+	//converts a date to a localdate
 	public LocalDate convertToLocalDate(Date dateToConvert) {
 	    return dateToConvert.toInstant()
 	      .atZone(ZoneId.systemDefault())
 	      .toLocalDate();
 	}
 	
+	//get alter 
 	 public static long calculateAge(LocalDate birthDate, LocalDate currentDate) {
 	        if ((birthDate != null) && (currentDate != null)) {
 	            return  Period.between(birthDate, currentDate).getYears();

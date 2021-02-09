@@ -11,21 +11,20 @@ public class BeitragsberechnungDelegate implements JavaDelegate {
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		// TODO Auto-generated method stub
-		RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
-		Map<String, Object> processVariables = new HashMap();
-		processVariables = execution.getVariables();
-		long riskobeitrag = 0 ;
-		if(processVariables.get("vable") != null)
-			execution.setVariable("Entscheidung", "versicherungsfähig");
-		long alter =  (long)processVariables.get("malter") ;
-		if(processVariables.get("riskobeitrag") != null)
-			riskobeitrag = (long)processVariables.get("riskobeitrag");
-		long beitrag = (alter *10) > 110  ? (alter *10)+riskobeitrag  :110 + riskobeitrag;
+	 
+		 
+		Map<String, Object> processVariables = new HashMap();  //create a Hashmap to store values from pool
+		processVariables = execution.getVariables();	//get all data
+		long riskobeitrag = 0 ; // create variable default 0
+		execution.setVariable("Entscheidung", "versicherungsfähig"); // set Entscheidung VErsicherungsfähig else this class wouldnt get executed
+		long alter =  (long)processVariables.get("malter") ; //get how old user is
+		if(processVariables.get("riskobeitrag") != null) //if risikobeitrag isnt empty than
+			riskobeitrag = (long)processVariables.get("riskobeitrag"); //get risikobeitrag from pool and set it to risikobeitrag variable
+		long beitrag =  alter > 11   ? (alter *10)+riskobeitrag  :110 + riskobeitrag; //if person is older than 11  calculate alter * 10 and add the risk value else just the default kid cost and add risk value   
 		
 		
-		execution.setVariable("Beitrag", beitrag);
-		//execution.setProcessBusinessKey(correlationId);
+		execution.setVariable("Beitrag", beitrag); // add calculated beitrag into pool
+	 
 		
 	 
 	}

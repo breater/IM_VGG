@@ -11,22 +11,17 @@ public class ReplyDelegate implements JavaDelegate {
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		// TODO Auto-generated method stub
-		RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
-		Map<String, Object> processVariables = new HashMap();
-		processVariables = execution.getVariables();
-		if(!processVariables.containsKey("Entscheidung"))
-				processVariables.put("Entscheindung", "");
-		else
-			if(processVariables.get("vable") != null)
-				if(processVariables.get("vable").toString() == "no")
-					processVariables.replace("Entscheidung", "nicht versicherungsfähig");
-		String correlationId = (String) processVariables.get("correlationId");
-		processVariables.put("createdate", new  Date());
-		//execution.setProcessBusinessKey(correlationId);
-		// correlate process with message name
+	 
+		RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService(); // get runtime service
+		Map<String, Object> processVariables = new HashMap(); // store all data of pool in 
+		processVariables = execution.getVariables(); //get all data of process 
+			
+		String correlationId = (String) processVariables.get("correlationId"); // get instanceid
+		
+		
+		//no overhead of Data ... so there is only necessary data in processVariables
+		// correlate process with messageid message and instanceID  
 		runtimeService.createMessageCorrelation("replymsg").setVariables(processVariables).processInstanceBusinessKey(correlationId).correlate();
 	
 	}
-
 }

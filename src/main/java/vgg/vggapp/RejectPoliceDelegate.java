@@ -13,12 +13,13 @@ public class RejectPoliceDelegate implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		// TODO Auto-generated method stub
-		RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
-		Map<String, Object> processVariables = new HashMap();
-		processVariables = execution.getVariables();	 
-		String correlationId = (String) processVariables.get("correlationId");		
+		RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService(); //  get runtime service of pool
+		Map<String, Object> processVariables = new HashMap(); //store process
+		processVariables = execution.getVariables();	 // get all process variables 
+														 
+		String correlationId = (String) processVariables.get("correlationId");	 //correlation id
 		//execution.setProcessBusinessKey(correlationId);
-		// correlate process with message name
+		// correlate process with messageid and message data and bussineskey
 		runtimeService.createMessageCorrelation("rejectmsg").setVariables(processVariables).processInstanceBusinessKey(correlationId).correlate();
 	}
 

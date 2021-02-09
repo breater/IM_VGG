@@ -12,21 +12,35 @@ public class SendRejectionDelegate implements JavaDelegate {
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		// TODO Auto-generated method stub
-		RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
-		Map<String, Object> processVariables = new HashMap();
-		processVariables = execution.getVariables();
-		if(!processVariables.containsKey("Entscheidung"))
-				processVariables.put("Entscheindung", "");
-		else
-			if(processVariables.get("vable") != null)
-				if(processVariables.get("vable").toString() == "no")
-					processVariables.replace("Entscheidung", "nicht versicherungsfähig");
-		String correlationId = (String) processVariables.get("correlationId");
-		processVariables.put("createdate", new  Date());
-		//execution.setProcessBusinessKey(correlationId);
-		// correlate process with message name
-		runtimeService.createMessageCorrelation("replymsg").setVariables(processVariables).processInstanceBusinessKey(correlationId).correlate();
+		
+		RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService(); //get runtime servcie of pool
+		Map<String, Object> processVariables = new HashMap(); // store all data here
+		Map<String, Object> RejectData = new HashMap(); //just send data he needs to cause security only necessary data
+		processVariables = execution.getVariables(); //get alldata of process 
+		String correlationId = (String) processVariables.get("correlationId"); //get correlationID
+		String name = (String) processVariables.get("name");	//get name
+		String vorname = (String) processVariables.get("vorname"); //get vorname
+		Date geburtstag = (Date) processVariables.get("gb");	//get gb
+		String anschrift = (String) processVariables.get("anschrift");	//get anschrift
+		String ablehnungsgrund = (String) processVariables.get("ablehung");	//get anschrift
+		Boolean approve = true;	 //can only be true else this class wouldnt be executed
+		
+		//fill data
+		RejectData.put("name", name);
+		RejectData.put("vorname", vorname);
+		RejectData.put("gb", geburtstag);
+		RejectData.put("anschrift", anschrift);
+		RejectData.put("ablehung", ablehnungsgrund);
+		RejectData.put("approve",approve );
+		RejectData.put("Entscheidung", "nicht versicherungsfähig");
+		RejectData.put("createdate", new  Date());
+		RejectData.put("correlationId",correlationId);
+		
+		
+		
+		 
+		// correlate process with messageid message and instanceID  
+		runtimeService.createMessageCorrelation("replymsg").setVariables(RejectData).processInstanceBusinessKey(correlationId).correlate();
 	
 	}
 

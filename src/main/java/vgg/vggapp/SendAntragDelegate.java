@@ -16,56 +16,23 @@ public class SendAntragDelegate implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		// TODO Auto-generated method stub
-		Map<String, Object> processVariables = new HashMap();
+		Map<String, Object> processVariables = new HashMap(); //create a hash map to store data
 		// fill the message; use new names
-		processVariables = execution.getVariables();
-		try {
-		long alter = calculateAge( convertToLocalDate((Date)execution.getVariable("gb")),LocalDate.now());
-		long bmi =   Math.round(  (long)execution.getVariable("gewicht")   / (Math.pow((long)execution.getVariable("gr")/100.0,2)  ) );
-		long risk = 0 ;
-		if(execution.getVariable("k1").toString().trim() != "" ) {
-			risk = 1 ;
-		}else if (execution.getVariable("k2").toString().trim() != "" ) {
-			risk = 2;
-		}else if (execution.getVariable("k3").toString().trim() != "" ) {
-			risk = 3;
-		}
-		
-		processVariables.put("malter", alter);
-		processVariables.put("mbmi", bmi);
-		processVariables.put("mrisk",risk);
-		}
-		catch(ELException ex) {
-			
-		}
-		catch(Exception ex) {
-			
-		}
+		processVariables = execution.getVariables();  //get all data from Process
+ 
 		// set the correlation id to identify this in receiving process
-		String correlationId = execution.getBusinessKey();
-		if (correlationId == null) {			// if not set at process start
-			correlationId = execution.getProcessInstanceId();
-			execution.setProcessBusinessKey(correlationId);
+		String correlationId = execution.getBusinessKey();  //get business key
+		if (correlationId == null) {			// if no bussinesskey
+			correlationId = execution.getProcessInstanceId(); // get process id
+			execution.setProcessBusinessKey(correlationId);	//set  process id as businesskey 
 		}
-		processVariables.put("correlationId", correlationId);
+		processVariables.put("correlationId", correlationId);  // send correlation id ->  correlation id needed to communicate between 2 Process and make them one instance
 
-		RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
-		// correlate process with message name
-		runtimeService.startProcessInstanceByMessage("formularmsg", processVariables);
+		RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService(); //get runtime service
+		// correlate process with messageid message and instanceID  
+		runtimeService.startProcessInstanceByMessage("formularmsg", processVariables); //start systemprocess with my data
 		 
 	}
 
-	public LocalDate convertToLocalDate(Date dateToConvert) {
-	    return dateToConvert.toInstant()
-	      .atZone(ZoneId.systemDefault())
-	      .toLocalDate();
-	}
-	
-	 public static long calculateAge(LocalDate birthDate, LocalDate currentDate) {
-	        if ((birthDate != null) && (currentDate != null)) {
-	            return  Period.between(birthDate, currentDate).getYears();
-	        } else {
-	            return 0;
-	        }
-	    }
+ 
 }
