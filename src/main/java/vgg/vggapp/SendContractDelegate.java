@@ -14,9 +14,9 @@ public class SendContractDelegate implements JavaDelegate {
 	public void execute(DelegateExecution execution) throws Exception {
 	 
 		RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
-		Map<String, Object> processVariables = new HashMap(); // store all data gere
+		Map<String, Object> processVariables = new HashMap(); // store all data here
 		processVariables = execution.getVariables(); // get all variables in pool
-		Map<String, Object> ContractData = new HashMap();	//just send data he needs to cause security only necessary data
+		Map<String, Object> ContractData = new HashMap();	//just send data it needs to cause security with only necessary data
 		String correlationId = (String) processVariables.get("correlationId"); //get correlation id 
 		String name = (String) processVariables.get("name");	//get name
 		String vorname = (String) processVariables.get("vorname"); //get vorname
@@ -25,7 +25,7 @@ public class SendContractDelegate implements JavaDelegate {
 		long Beitrag = (long) processVariables.get("Beitrag");//get Beitrag
 		Long risikobeitrag = (Long) processVariables.get("riskobeitrag"); //get riskiobeitrag
 		String riskogrund = (String) processVariables.get("reason"); // get reason
-		Boolean approve = true;	 // can only be true else this class dont get executed
+		Boolean approve = true;	 // can only be true else this class doesnt get executed
 			
 		
 		//fill with data needed 
